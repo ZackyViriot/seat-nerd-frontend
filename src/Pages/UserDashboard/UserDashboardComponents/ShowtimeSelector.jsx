@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import axiosInstance from "../../../axios/axiosSetup";
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe('pk_live_51QRPF6GDlcFzOwRVEJvLkMMRszuqwYRWbkkWohm4sMriIscHDCSIy3bbjzjs8Ru0Lcn5zr73r7jRET97blOySnfj000SweidEo');
@@ -125,7 +126,7 @@ const ShowtimeSelector = () => {
 
     const fetchShowtimesAndMovies = async () => {
         try {
-            const showtimesResponse = await axios.get("http://localhost:8000/showtimes");
+            const showtimesResponse = await axiosInstance.get("/showtimes");
             const showtimesData = showtimesResponse.data;
             setShowtimes(showtimesData);
 
@@ -136,7 +137,7 @@ const ShowtimeSelector = () => {
             const moviesData = {};
             await Promise.all(
                 movieIds.map(async (movieId) => {
-                    const movieResponse = await axios.get(`http://localhost:8000/movies/${movieId}`);
+                    const movieResponse = await axiosInstance.get(`/movies/${movieId}`);
                     moviesData[movieId] = movieResponse.data;
                 })
             );
@@ -156,7 +157,7 @@ const ShowtimeSelector = () => {
         if (!selectedShowtime) return;
 
         try {
-            const response = await axios.post(`http://localhost:8000/showtimes/${selectedShowtime._id}/purchase`, {
+            const response = await axiosInstance.post(`/showtimes/${selectedShowtime._id}/purchase`, {
                 numberOfTickets: quantity
             });
             
@@ -169,7 +170,7 @@ const ShowtimeSelector = () => {
 
     const handlePaymentSuccess = async (email) => {
         try {
-            await axios.post(`http://localhost:8000/showtimes/${selectedShowtime._id}/confirm`, {
+            await axiosInstance.post(`showtimes/${selectedShowtime._id}/confirm`, {
                 numberOfTickets: quantity,
                 email: email
             });

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import axiosInstance from '../../../axios/axiosSetup';
 
 const AddShowtimeForm = ({ onShowtimeAdded }) => {
   const [movies, setMovies] = useState([]);
@@ -16,7 +17,7 @@ const AddShowtimeForm = ({ onShowtimeAdded }) => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/movies');
+        const response = await axiosInstance.get('/movies');
         setMovies(response.data);
         // Set the first movie as default if available
         if (response.data.length > 0) {
@@ -74,7 +75,7 @@ const AddShowtimeForm = ({ onShowtimeAdded }) => {
       };
   
       // Make the API call
-      const response = await axios.post('http://localhost:8000/showtimes', showtimeData);
+      const response = await axiosInstance.post('/showtimes', showtimeData);
   
       // Handle success
       setSuccess('Showtime added successfully!');

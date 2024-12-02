@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import axiosInstance from '../../../axios/axiosSetup';
 
 // Delete Confirmation Modal Component
 const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, movieTitle }) => {
@@ -47,7 +48,7 @@ const MovieTable = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/movies');
+      const response = await axiosInstance.get('/movies');
       setMovies(response.data);
     } catch (err) {
       setError('Failed to fetch movies');
@@ -65,7 +66,7 @@ const MovieTable = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`http://localhost:8000/movies/${deleteModal.movieId}`);
+      await axiosInstance.delete(`/movies/${deleteModal.movieId}`);
       fetchMovies(); // Refresh the list after deletion
       setDeleteModal({ isOpen: false, movieId: null, movieTitle: '' });
     } catch (err) {

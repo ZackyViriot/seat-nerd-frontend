@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import axiosInstance from '../../../axios/axiosSetup';
 
 const AddMovieForm = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const AddMovieForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/movies', formData);
+      await axiosInstance.post('/movies', formData);
       setSuccess('Movie added successfully!');
       setError('');
       setFormData({

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../../axios/axiosSetup';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -37,8 +37,8 @@ const LandingPageLoginAndSignup = () => {
       const { confirmPassword, ...submitData } = formData;
       submitData.email = submitData.email.toLowerCase();
       
-      const endpoint = isLogin ? 'http://localhost:8000/auth/login' : 'http://localhost:8000/auth/signup';
-      const response = await axios.post(endpoint, submitData);
+      const endpoint = isLogin ? '/auth/login' : '/auth/signup';
+      const response = await axiosInstance.post(endpoint, submitData);
   
       if (response.data.access_token) {
         localStorage.setItem('token', response.data.access_token);

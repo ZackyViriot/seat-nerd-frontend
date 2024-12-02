@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
+import axiosInstance from '../../../axios/axiosSetup';
 
 // Delete Confirmation Modal Component
 const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, showtime, movies }) => {
@@ -48,7 +49,7 @@ const ShowtimeTable = ({ onShowtimeDeleted }) => {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/movies');
+      const response = await axiosInstance.get('/movies');
       const movieMap = {};
       response.data.forEach(movie => {
         movieMap[movie._id] = movie;
@@ -63,7 +64,7 @@ const ShowtimeTable = ({ onShowtimeDeleted }) => {
   const fetchShowtimes = async () => {
     try {
       console.log('Fetching showtimes...');
-      const response = await axios.get('http://localhost:8000/showtimes');
+      const response = await axiosInstance.get('/showtimes');
       console.log('Fetched showtimes:', response.data);
       setShowtimes(response.data);
     } catch (err) {
@@ -83,7 +84,7 @@ const ShowtimeTable = ({ onShowtimeDeleted }) => {
   const handleDeleteConfirm = async () => {
     try {
       console.log('Deleting showtime:', deleteModal.showtime);
-      await axios.delete(`http://localhost:8000/showtimes/${deleteModal.showtime._id}`);
+      await axiosInstance.delete(`/showtimes/${deleteModal.showtime._id}`);
       await fetchShowtimes(); // Refresh the list after deletion
       setDeleteModal({ isOpen: false, showtime: null });
       if (onShowtimeDeleted) {

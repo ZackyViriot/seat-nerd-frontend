@@ -6,6 +6,7 @@ import AddShowtimeForm from './AdminDashboardComponents/AddShowtimeForm';
 import MovieTable from './AdminDashboardComponents/MovieTable';
 import ShowtimeTable from './AdminDashboardComponents/ShowtimeTable';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../axios/axiosSetup';
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState({
@@ -18,11 +19,11 @@ export default function AdminDashboard() {
     const fetchStats = async () => {
         try {
             // Fetch movies stats
-            const moviesResponse = await axios.get('http://localhost:8000/movies');
+            const moviesResponse = await axiosInstance.get('/movies');
             const movies = moviesResponse.data;
             
             // Fetch showtimes stats
-            const showtimesResponse = await axios.get('http://localhost:8000/showtimes');
+            const showtimesResponse = await axiosInstance.get('/showtimes');
             const showtimes = showtimesResponse.data;
 
             const totalMovies = movies.length;
@@ -50,7 +51,7 @@ export default function AdminDashboard() {
 
         const verifyAdmin = async () => {
             try {
-                await axios.get('http://localhost:8000/users/admin-only', {
+                await axiosInstance.get('/users/admin-only', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

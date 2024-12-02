@@ -3,6 +3,7 @@ import axios from 'axios';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axiosInstance from '../../../axios/axiosSetup';
 
 const LandingPageMovieGallery = () => {
     const [movies, setMovies] = useState([]);
@@ -13,7 +14,7 @@ const LandingPageMovieGallery = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/movies');
+                const response = await axiosInstance.get('/movies');
                 setMovies(response.data);
             } catch (err) {
                 setError('Failed to fetch movies');
