@@ -170,7 +170,7 @@ const ShowtimeSelector = () => {
 
     const handlePaymentSuccess = async (email) => {
         try {
-            await axiosInstance.post(`showtimes/${selectedShowtime._id}/confirm`, {
+            await axiosInstance.post(`/showtimes/${selectedShowtime._id}/confirm`, {
                 numberOfTickets: quantity,
                 email: email
             });
